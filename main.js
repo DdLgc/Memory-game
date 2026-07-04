@@ -10,7 +10,7 @@ const cards = [
 ];
 
 const gameBoard = document.getElementById("game-board");
-gameBoard.appendChild(createCard("https://picsum.photos/id/236/100/100"));
+
 
 function createCard(CardUrl) {
   const card = document.createElement("div");
@@ -31,8 +31,13 @@ function duplicateArray(arraySimple) {
   return arrayDouble;
 }
 
-const allCards = duplicateArray(cards);
+let allCards = duplicateArray(cards);
 allCards.forEach((card) => {
   const cardHtml = createCard(card);
   gameBoard.appendChild(cardHtml);
 });
+
+function shuffleArray(arrayToshuffle){
+    const arrayShuffled = arrayToshuffle.sort(() => 0.5 - Math.random());
+    return arrayShuffled;
+}

@@ -10,3 +10,12 @@ body {
   justify-content: center;
   margin: 30px auto;
 }
+
+/* .card {
+    background-color: #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.card .card-content {
+    opacity: 0;
+  } */
