@@ -127,17 +127,22 @@ function checkWin() {
 function initGame() {
   gameBoard.innerHTML = "";
   selectedCards = [];
-  lockBoard = false;
+  lockBoard = true;
   resetTimer();
   victoryModal.classList.add("hidden");
 
   let allCards = duplicateArray(cards);
   allCards = shuffleArray(allCards);
 
-  allCards.forEach((card) => {
+  allCards.forEach((card, index) => {
     const cardHtml = createCard(card);
+    cardHtml.style.animationDelay = `${index * 80}ms`;
     gameBoard.appendChild(cardHtml);
   });
+
+  setTimeout(() => {
+    lockBoard = false;
+  }, allCards.length * 80 + 500);
 }
 
 restartButton.addEventListener("click", initGame);
