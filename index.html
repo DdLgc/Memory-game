@@ -9,12 +9,24 @@
 </head>
 
 <body>
-    <h1>Memory game</h1>
-    <div id="game-board">
-        
-    </div>
+  <h1>Memory game</h1>
 
-    <script src=" main.js"></script>
+  <div class="game-info">
+    <p>Temps : <span id="timer">00:00</span></p>
+    <button id="restart-button">Recommencer</button>
+  </div>
+
+  <div id="game-board"></div>
+
+  <div id="victory-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Bravo, vous avez gagné !</h2>
+      <p>Temps final : <span id="final-time">00:00</span></p>
+      <button id="play-again-button">Rejouer</button>
+    </div>
+  </div>
+
+    <script src="main.js"></script>
 </body>
 
 </html>

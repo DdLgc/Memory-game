@@ -32,3 +32,47 @@ body {
 .card .card-content {
     max-width: 100%;
 }
+.card.flip{
+    transform: rotateY(180deg);
+}
+.card .card-content {
+    transition: all 0.3s;
+}
+.card {
+    transform: rotateY(0deg);
+    transition: all 0.5s;
+}
+
+.game-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
