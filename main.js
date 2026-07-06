@@ -15,11 +15,14 @@ const restartButton = document.getElementById("restart-button");
 const victoryModal = document.getElementById("victory-modal");
 const finalTime = document.getElementById("final-time");
 const playAgainButton = document.getElementById("play-again-button");
+const movesElement = document.getElementById("moves");
+const finalMoves = document.getElementById("final-moves");
 
 let selectedCards = [];
 let lockBoard = false;
 let timerInterval = null;
 let seconds = 0;
+let moves = 0;
 
 function createCard(cardUrl) {
   const card = document.createElement("div");
@@ -86,6 +89,8 @@ function onCardClick(e) {
   selectedCards.push(card);
 
   if (selectedCards.length === 2) {
+    moves++;
+    movesElement.textContent = moves;
     lockBoard = true;
 
     setTimeout(() => {
@@ -120,6 +125,8 @@ function checkWin() {
   if (allCardsNotFound.length === 0) {
     stopTimer();
     finalTime.textContent = timerElement.textContent;
+    finalMoves.textContent = moves;
+
     victoryModal.classList.remove("hidden");
   }
 }
@@ -127,6 +134,7 @@ function checkWin() {
 function initGame() {
   gameBoard.innerHTML = "";
   selectedCards = [];
+  moves = 0;
   lockBoard = true;
   resetTimer();
   victoryModal.classList.add("hidden");
@@ -140,9 +148,12 @@ function initGame() {
     gameBoard.appendChild(cardHtml);
   });
 
-  setTimeout(() => {
-    lockBoard = false;
-  }, allCards.length * 80 + 500);
+  setTimeout(
+    () => {
+      lockBoard = false;
+    },
+    allCards.length * 80 + 500,
+  );
 }
 
 restartButton.addEventListener("click", initGame);
