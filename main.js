@@ -1,4 +1,3 @@
-
 const cards = [
   "https://picsum.photos/id/10/100/100",
   "https://picsum.photos/id/11/100/100",
@@ -12,9 +11,11 @@ const cards = [
 
 const gameBoard = document.getElementById("game-board");
 const timerElement = document.getElementById("timer");
+const movesElement = document.getElementById("moves");
 const restartButton = document.getElementById("restart-button");
 const victoryModal = document.getElementById("victory-modal");
 const finalTime = document.getElementById("final-time");
+const finalMoves = document.getElementById("final-moves");
 const playAgainButton = document.getElementById("play-again-button");
 const movesElement = document.getElementById("moves");
 const finalMoves = document.getElementById("final-moves");
@@ -33,6 +34,7 @@ function createCard(cardUrl) {
   const cardContent = document.createElement("img");
   cardContent.classList.add("card-content");
   cardContent.src = cardUrl;
+  cardContent.alt = "Memory card";
 
   card.appendChild(cardContent);
   card.addEventListener("click", onCardClick);
@@ -40,12 +42,12 @@ function createCard(cardUrl) {
   return card;
 }
 
-function duplicateArray(arraySimple) {
-  return [...arraySimple, ...arraySimple];
+function duplicateArray(array) {
+  return [...array, ...array];
 }
 
-function shuffleArray(arrayToShuffle) {
-  return arrayToShuffle.sort(() => 0.5 - Math.random());
+function shuffleArray(array) {
+  return array.sort(() => 0.5 - Math.random());
 }
 
 function startTimer() {
@@ -68,6 +70,11 @@ function resetTimer() {
   timerElement.textContent = "00:00";
 }
 
+function resetMoves() {
+  moves = 0;
+  movesElement.textContent = moves;
+}
+
 function formatTime(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60);
   const remainingSeconds = totalSeconds % 60;
@@ -75,10 +82,10 @@ function formatTime(totalSeconds) {
   return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
 }
 
-function onCardClick(e) {
+function onCardClick(event) {
   if (lockBoard) return;
 
-  const card = e.currentTarget;
+  const card = event.currentTarget;
 
   if (card.classList.contains("flip") || card.classList.contains("matched")) {
     return;
@@ -103,8 +110,7 @@ function onCardClick(e) {
 }
 
 function checkSelectedCards() {
-  const firstCard = selectedCards[0];
-  const secondCard = selectedCards[1];
+  const [firstCard, secondCard] = selectedCards;
 
   if (firstCard.dataset.value === secondCard.dataset.value) {
     firstCard.classList.add("matched");
@@ -114,20 +120,20 @@ function checkSelectedCards() {
     secondCard.removeEventListener("click", onCardClick);
 
     checkWin();
-  } else {
-    firstCard.classList.remove("flip");
-    secondCard.classList.remove("flip");
+    return;
   }
+
+  firstCard.classList.remove("flip");
+  secondCard.classList.remove("flip");
 }
 
 function checkWin() {
-  const allCardsNotFound = document.querySelectorAll(".card:not(.matched)");
+  const unmatchedCards = document.querySelectorAll(".card:not(.matched)");
 
-  if (allCardsNotFound.length === 0) {
+  if (unmatchedCards.length === 0) {
     stopTimer();
     finalTime.textContent = timerElement.textContent;
     finalMoves.textContent = moves;
-
     victoryModal.classList.remove("hidden");
   }
 }
@@ -137,13 +143,14 @@ function initGame() {
   selectedCards = [];
   moves = 0;
   lockBoard = true;
+
   resetTimer();
+  resetMoves();
   victoryModal.classList.add("hidden");
 
-  let allCards = duplicateArray(cards);
-  allCards = shuffleArray(allCards);
+  const shuffledCards = shuffleArray(duplicateArray(cards));
 
-  allCards.forEach((card, index) => {
+  shuffledCards.forEach((card, index) => {
     const cardHtml = createCard(card);
     cardHtml.style.animationDelay = `${index * 80}ms`;
     gameBoard.appendChild(cardHtml);
@@ -153,7 +160,7 @@ function initGame() {
     () => {
       lockBoard = false;
     },
-    allCards.length * 80 + 500,
+    shuffledCards.length * 80 + 500,
   );
 }
 
