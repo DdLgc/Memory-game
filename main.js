@@ -17,8 +17,6 @@ const victoryModal = document.getElementById("victory-modal");
 const finalTime = document.getElementById("final-time");
 const finalMoves = document.getElementById("final-moves");
 const playAgainButton = document.getElementById("play-again-button");
-const movesElement = document.getElementById("moves");
-const finalMoves = document.getElementById("final-moves");
 
 let selectedCards = [];
 let lockBoard = false;
